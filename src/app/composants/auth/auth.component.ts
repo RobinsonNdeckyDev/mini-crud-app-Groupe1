@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,8 +16,9 @@ export class AuthComponent implements OnInit {
   passwordLogin: string = "";
 
   users: any[] = [];
+  userFound: any;
 
-  constructor(private userService: UtilisateurService){}
+  constructor(private userService: UtilisateurService, private router: Router){}
 
 
   ngOnInit(): void {
@@ -38,8 +40,10 @@ export class AuthComponent implements OnInit {
     // EmailRegex
     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
 
-    if(this.emailLogin == "" || this.passwordLogin == "" ){
-      this.alertMessage("error", "Attention", "Veillez renseigner tous les champs");
+    if(this.emailLogin == ""){
+      this.alertMessage("error", "Attention", "Veillez renseigner l'email");
+    }else if(this.passwordLogin == "" ){
+      this.alertMessage("error", "Attention", "Veillez renseigner le mot de passe");
     }else if(!this.emailLogin.match(emailPattern)){
       this.alertMessage("error", "Attention", "Veillez revoir votre email");
     }else if(this.passwordLogin.length < 5){
@@ -47,10 +51,12 @@ export class AuthComponent implements OnInit {
     
     }else{
 
-      let userFound = this.users.find((element: any) => element.email == this.emailLogin && element.password == this.passwordLogin)
+      this.userFound = this.users.find((element: any) => element.email == this.emailLogin && element.password == this.passwordLogin)
 
-      if(userFound){
+      if(this.userFound){
+        this.router.navigate(['gestion', this.userFound.id])
         this.alertMessage("success", "Bravo", "connexion réussie")
+
       }else{
         this.alertMessage("error", "Attention", "Ce compte n'existe pas")
       }
