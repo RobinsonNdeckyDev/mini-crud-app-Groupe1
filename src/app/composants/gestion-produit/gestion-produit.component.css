@@ -1,0 +1,80 @@
+.sidebar {
+    height: 85vh;
+    background-color: #434f6a;
+}
+
+.traitL {
+    border: 2px solid #DD99BB;
+}
+
+.bg1{
+    background-color: #718bbe;
+    color: white;
+}
+
+.btnAdd{
+    background-color: #434f6a;
+    color: white;
+}
+
+.btnAdd1{
+    background-color: #434f6a !important;
+    color: white;
+}
+
+.btnAdd:hover{
+    background-color: white;
+    color: #434f6a;
+    font-weight: bold;
+}
+
+/* .nav-link{
+    color: #09235f !important;
+} */
+.trait {
+    border: 2px solid #434f6a;
+    width: 20%;
+    margin: 0 auto;
+}
+
+.titre {
+    color: #434f6a;
+}
+
+
+.nav-pills a {
+    cursor: pointer;
+}
+
+.fond-bleu {
+    background-color: #718bbe !important;
+    font-weight: bold;
+    color: white !important;
+}
+
+.fond-bleuBar{
+    background-color: #cd4087;
+}
+
+.btnAjt {
+    color: #DD99BB !important;
+}
+
+.btnDet {
+    background-color: white;
+    color: #DD99BB;
+}
+
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+li a {
+    text-decoration: none;
+    color: black;
+}

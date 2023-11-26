@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilisateurService } from 'src/app/services/utilisateur.service';
+import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class AuthComponent implements OnInit {
 
-  // Nos attributs
+   // Nos attributs
 
   emailLogin: string = "";
   passwordLogin: string = "";
@@ -18,7 +19,7 @@ export class AuthComponent implements OnInit {
   users: any[] = [];
   userFound: any;
 
-  constructor(private userService: UtilisateurService, private router: Router){}
+  constructor(private userService: UserService, private router: Router){}
 
 
   ngOnInit(): void {
@@ -30,6 +31,8 @@ export class AuthComponent implements OnInit {
         if(!localStorage.getItem("Utilisateurs")){
             localStorage.setItem('Utilisateurs', JSON.stringify(this.users));
         }
+
+        console.log(this.emailLogin);
         
      })
   }
@@ -41,24 +44,23 @@ export class AuthComponent implements OnInit {
     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
 
     if(this.emailLogin == ""){
-      this.alertMessage("error", "Attention", "Veillez renseigner l'email");
+      this.alertMessage("error", "Attention", "Veillez renseigner l'email", 2000);
     }else if(this.passwordLogin == "" ){
-      this.alertMessage("error", "Attention", "Veillez renseigner le mot de passe");
+      this.alertMessage("error", "Attention", "Veillez renseigner le mot de passe", 2000);
     }else if(!this.emailLogin.match(emailPattern)){
-      this.alertMessage("error", "Attention", "Veillez revoir votre email");
+      this.alertMessage("error", "Attention", "Veillez revoir votre email", 2000);
     }else if(this.passwordLogin.length < 5){
-      this.alertMessage("error", "Attention", "Le mot de passe doit contenir plus de huit caractéres");
+      this.alertMessage("error", "Attention", "Le mot de passe doit contenir plus de huit caractéres", 2000);
     
     }else{
 
       this.userFound = this.users.find((element: any) => element.email == this.emailLogin && element.password == this.passwordLogin)
 
       if(this.userFound){
-        this.router.navigate(['gestion', this.userFound.id])
-        this.alertMessage("success", "Bravo", "connexion réussie")
-
+        this.router.navigate(['gestion', this.userFound.id]);
+        this.alertMessage("success", "Bravo", "connexion réussie", 2000);
       }else{
-        this.alertMessage("error", "Attention", "Ce compte n'existe pas")
+        this.alertMessage("error", "Attention", "Ce compte n'existe pas", 2000)
       }
     }
 
@@ -66,12 +68,12 @@ export class AuthComponent implements OnInit {
 
 
   // sweetAlert
-  alertMessage(icon: any, title: any, text: any) {
+  alertMessage(icon: any, title: any, text: any, timer: 2000) {
     Swal.fire({
       icon: icon,
       title: title,
       text: text,
-      // timer: 1500
+      timer: timer
     });
   }
 

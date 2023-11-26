@@ -1,0 +1,284 @@
+<!-- header -->
+<app-header></app-header>
+<!-- header -->
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-2 p-0 sidebarContainer">
+            <div class="d-flex sidebar flex-column flex-shrink-0 p-2">
+                <a class="text-center fw-bold fs-4  text-white text-decoration-none">
+                    Tableau de bord
+                </a>
+                <hr>
+
+                <ul class="nav nav-pills flex-column mb-auto">
+                    
+                    <li class="nav-item my-2" [ngClass]="{'fond-bleu': boutonActif === 1}"
+                        (click)="showContent('listeProduits')" (click)="boutonActif = 1">
+                        <a class="nav-link">
+                            Liste produits
+                        </a>
+                    </li>
+
+                    <li class="nav-item my-2" [ngClass]="{'fond-bleu': boutonActif === 2}"
+                        (click)="showContent('produitOff')" (click)="boutonActif = 2">
+                        <a class="nav-link">
+                            Liste produits désactivés
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-md-10 border">
+            
+            <!-- liste produits -->
+            <div class="listeProduits p-2" id="listeProduits" *ngIf="currentContent === 'listeProduits'">
+            
+                <h4 class="text-center fw-bold titre">Liste des produits</h4>
+                <div class="trait"></div>
+                <button class="btn btnAdd mt-2 mb-2 active" data-bs-toggle="modal" data-bs-target="#ajoutProduit">Ajouter un produit
+                </button>
+            
+            
+                <div class="table-responsive overflow-y-scroll" style="height: 55vh;">
+                    <!-- <table class="table align-items-center  p-2">
+                        <thead class="sticky-top border">
+                            <tr class="">
+                                <th scope="col" class="bg1">Nom du produit</th>
+                                <th scope="col" class="bg1">Description du produit</th>
+                                <th scope="col" class="bg1">prix</th>
+                                <th scope="col" class="bg1">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container class="">
+                                <tr>
+                                    <td>
+            
+                                    </td>
+                                    <td>
+            
+                                    </td>
+                                    <td>
+            
+                                    </td>
+                                    <td class="d-flex">
+                                        <button class="btn  btn-warning fw-bold active me-2" data-bs-toggle="modal"
+                                            data-bs-target="#detailProduit">Détail 📜</button>
+                                        <button class="btn me-2 btn-warning text-light fw-bold" data-bs-toggle="modal"
+                                            data-bs-target="#modifierProduit">Modifier</button>
+                                        <button class="btn me-2 btn-warning text-light fw-bold">Désactiver</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table> -->
+                    
+                    <div class="container">
+                        <div class="row border">
+                            <div class="col-md-4 mb-3" *ngFor="let produit of produitsUserId.reverse()">
+                                <div class="card">
+                                    <img [src]="produit.imageUrl" class="card-img-top h-75" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{produit.nomProduit}}</h5>
+                                        <p class="card-text">Description: <br> {{produit.description}}</p>
+                                        <p class="card-text">Prix: <br> {{produit.prix}} </p>
+                    
+                                        <!-- Boutons d'action par exemple -->
+                                        <a href="#" class="btn btn-primary active me-2" data-bs-toggle="modal"
+                                            data-bs-target="#modifierProduit">Modifier</a>
+                                        <a href="#" class="btn btn-danger">Supprimer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            <!-- liste produits -->
+
+            <!-- listes produits supprimés -->
+            <div class="produitOff" id="produitOff" *ngIf="currentContent === 'produitOff'">
+                <h4 class="text-center mt-2 fw-bold titre">Liste des produits désactivés</h4>
+                <div class="trait"></div>
+            
+                <div class="table-responsive overflow-y-scroll mt-5" style="height: 55vh;">
+                    <table class="table align-items-center table-flush">
+                        <thead class="sticky-top fond-bleu">
+                            <tr class="">
+                            <th scope="col" class="bg1">Nom du produit</th>
+                            <th scope="col" class="bg1">Description du produit</th>
+                            <th scope="col" class="bg1">prix</th>
+                            <th scope="col" class="bg1">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container class="">
+                                <tr>
+                                    <td>
+            
+                                    </td>
+                                    <td>
+            
+                                    </td>
+                                    <td>
+            
+                                    </td>
+                                    <td class="d-flex">
+                                        <button class="btn me-2 btn-warning text-light fw-bold">Activer</button>
+                                        <button class="btn me-2 btn-warning text-light fw-bold">supprimer</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- listes produits supprimés -->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal ajout produit -->
+<div class="modal fade" id="ajoutProduit">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 titre fw-bold">Ajouter un Produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="">
+                        <div class="mb-3">
+                            <label for="nomProduit" class="form-label">Nom du produit: </label>
+                            <input type="text" class="form-control" id="nomProduit" name="nomProduit" [(ngModel)]="nomProduit">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="imageProduit" class="form-label">Image du produit</label>
+                            <input type="text" class="form-control" id="imageProduit" name="imageProduit" [(ngModel)]="imageProduit">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="prixProduit" class="form-label">Prix du produit</label>
+                            <input type="text" class="form-control" id="prixProduit" name="prixProduit" [(ngModel)]="prixProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descProduit" class="form-label">Description du produit</label>
+                            <textarea name="descProduit" class="form-control" id="descProduit" cols="3" rows="5" [(ngModel)]="descProduit"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Envoi du formulaire -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btnAdd1 text-light" type="submit" data-bs-dismiss="modal" (click)="ajoutProduit()">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal ajout produit -->
+
+
+<!-- Modal détail produit -->
+<div class="modal fade" id="detailProduit">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 titre fw-bold">Détails du Produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="">
+                        <div class="mb-3">
+                            <label for="nomProduit" class="form-label">Nom du produit: </label>
+                            <input type="text" class="form-control" id="nomProduit" name="nomProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imageProduit" class="form-label">Image du produit</label>
+                            <input type="text" class="form-control" id="imageProduit" name="imageProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descProduit" class="form-label">Description du produit</label>
+                            <input type="text" class="form-control" id="descProduit" name="descProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prixProduit" class="form-label">Prix du produit</label>
+                            <input type="text" class="form-control" id="prixProduit" name="prixProduit">
+                        </div>
+                    </div>
+
+                    <!-- Envoi du formulaire -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btnAdd1 text-light" type="submit" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal détail produit -->
+
+
+<!-- Modal modifier produit -->
+<div class="modal fade" id="modifierProduit">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 titre fw-bold">Modifier le produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="">
+                        <div class="mb-3">
+                            <label for="nomProduit" class="form-label">Nom du produit: </label>
+                            <input type="text" class="form-control" id="nomProduit" name="nomProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imageProduit" class="form-label">Image du produit</label>
+                            <input type="text" class="form-control" id="imageProduit" name="imageProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descProduit" class="form-label">Description du produit</label>
+                            <input type="text" class="form-control" id="descProduit" name="descProduit">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prixProduit" class="form-label">Prix du produit</label>
+                            <input type="text" class="form-control" id="prixProduit" name="prixProduit">
+                        </div>
+                    </div>
+
+                    <!-- Envoi du formulaire -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btnAdd1 text-light" type="submit" data-bs-dismiss="modal">Modifier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal modifier produit -->
+
+
+
+<!-- footer -->
+<app-footer></app-footer>
+<!-- footer -->

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GestionProduitsComponent } from './composants/gestion-produits/gestion-produits.component';
+import { GestionProduitComponent } from './composants/gestion-produit/gestion-produit.component';
 import { AuthComponent } from './composants/auth/auth.component';
 
 const routes: Routes = [
   { path: '', redirectTo : 'connexion', pathMatch: 'full' },
-  { path: 'gestion/:id', component: GestionProduitsComponent},
-  { path: 'connexion', component: AuthComponent}
+  { path: 'connexion', component: AuthComponent},
+  { path: 'gestion/:id', component: GestionProduitComponent}
 ];
 
 @NgModule({
