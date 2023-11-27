@@ -14,16 +14,16 @@
 
                 <ul class="nav nav-pills flex-column mb-auto">
                     
-                    <li class="nav-item my-2" [ngClass]="{'fond-bleu': boutonActif === 1}"
+                    <li class="nav-item my-2" [ngClass]="{'navColor': boutonActif === 1}"
                         (click)="showContent('listeProduits')" (click)="boutonActif = 1">
-                        <a class="nav-link">
+                        <a class="nav-link text-light">
                             Liste produits
                         </a>
                     </li>
 
-                    <li class="nav-item my-2" [ngClass]="{'fond-bleu': boutonActif === 2}"
+                    <li class="nav-item my-2" [ngClass]="{'navColor': boutonActif === 2}"
                         (click)="showContent('produitOff')" (click)="boutonActif = 2">
-                        <a class="nav-link">
+                        <a class="nav-link text-light">
                             Liste produits désactivés
                         </a>
                     </li>
@@ -42,54 +42,26 @@
                 </button>
             
             
-                <div class="table-responsive overflow-y-scroll" style="height: 55vh;">
-                    <!-- <table class="table align-items-center  p-2">
-                        <thead class="sticky-top border">
-                            <tr class="">
-                                <th scope="col" class="bg1">Nom du produit</th>
-                                <th scope="col" class="bg1">Description du produit</th>
-                                <th scope="col" class="bg1">prix</th>
-                                <th scope="col" class="bg1">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container class="">
-                                <tr>
-                                    <td>
-            
-                                    </td>
-                                    <td>
-            
-                                    </td>
-                                    <td>
-            
-                                    </td>
-                                    <td class="d-flex">
-                                        <button class="btn  btn-warning fw-bold active me-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailProduit">Détail 📜</button>
-                                        <button class="btn me-2 btn-warning text-light fw-bold" data-bs-toggle="modal"
-                                            data-bs-target="#modifierProduit">Modifier</button>
-                                        <button class="btn me-2 btn-warning text-light fw-bold">Désactiver</button>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table> -->
+                <div class=" p-3 mt-2 overflow-y-scroll" style="height: 68vh;">
                     
                     <div class="container">
+                      
                         <div class="row border">
                             <div class="col-md-4 mb-3" *ngFor="let produit of tabProduitsUser.reverse()">
                                 <div class="card">
                                     <img [src]="produit.imageUrl" class="card-img-top h-75" alt="">
+
                                     <div class="card-body">
                                         <h5 class="card-title">{{produit.nomProduit}}</h5>
-                                        <p class="card-text">Description: <br> {{produit.description}}</p>
-                                        <p class="card-text">Prix: <br> {{produit.prix}} </p>
+                                        <p class="card-text"><span class="fw-bold">Description:</span> <br> {{produit.description}}</p>
+                                        <p class="card-text"><span class="fw-bold">Prix:</span> {{produit.prix}} Fcfa</p>
                     
                                         <!-- Boutons d'action par exemple -->
+
                                         <a href="#" class="btn btn-primary active me-2" data-bs-toggle="modal"
                                             data-bs-target="#modifierProduit" (click)="chargerInfos(produit)">Modifier</a>
                                         <button href="#" class="btn btn-danger" (click)="supprimerProduit(produit)">Supprimer</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -105,37 +77,28 @@
                 <h4 class="text-center mt-2 fw-bold titre">Liste des produits désactivés</h4>
                 <div class="trait"></div>
             
-                <div class="table-responsive overflow-y-scroll mt-5" style="height: 55vh;">
-                    <table class="table align-items-center table-flush">
-                        <thead class="sticky-top fond-bleu">
-                            <tr class="">
-                            <th scope="col" class="bg1">Nom du produit</th>
-                            <th scope="col" class="bg1">Description du produit</th>
-                            <th scope="col" class="bg1">prix</th>
-                            <th scope="col" class="bg1">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container class="">
-                                <tr>
-                                    <td>
-            
-                                    </td>
-                                    <td>
-            
-                                    </td>
-                                    <td>
-            
-                                    </td>
-                                    <td class="d-flex">
-                                        <button class="btn me-2 btn-warning text-light fw-bold">Activer</button>
-                                        <button class="btn me-2 btn-warning text-light fw-bold">supprimer</button>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
-                </div>
+                <div class=" overflow-y-scroll mt-5" style="height: 68vh;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 mb-3" *ngFor="let produit of produitsUserId.reverse()">
+                                <div class="card shadow">
+                                    <img [src]="produit.imageUrl" class="card-img-top imgProduit" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{produit.nomProduit}}</h5>
+                                        <p class="card-text"><span class="fw-bold">Description:</span> <br> {{produit.description}}</p>
+                                        <p class="card-text"><span class="fw-bold">Prix:</span> {{produit.prix}} Fcfa</p>
+                    
+                                        <!-- Boutons d'action par exemple -->
+                                        <div class="btnActions d-flex justify-content-between">
+                                            <a href="#" class="btn btnAction active me-2">Activer</a>
+                                            <a href="#" class="btn btnAction active">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
             <!-- listes produits supprimés -->
 

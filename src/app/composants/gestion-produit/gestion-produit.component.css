@@ -3,10 +3,6 @@
     background-color: #434f6a;
 }
 
-.traitL {
-    border: 2px solid #DD99BB;
-}
-
 .bg1{
     background-color: #718bbe;
     color: white;
@@ -28,9 +24,10 @@
     font-weight: bold;
 }
 
-/* .nav-link{
-    color: #09235f !important;
-} */
+.imgProduit{
+    height: 260px;
+}
+
 .trait {
     border: 2px solid #434f6a;
     width: 20%;
@@ -41,30 +38,26 @@
     color: #434f6a;
 }
 
+.btnAction{
+    background-color: #718bbe;
+    color: white;
+}
+
+.btnAction:hover{
+    background-color: white;
+    color: #434f6a;
+    font-weight: bold;
+}
+
 
 .nav-pills a {
     cursor: pointer;
 }
 
-.fond-bleu {
+.navColor{
     background-color: #718bbe !important;
     font-weight: bold;
-    color: white !important;
 }
-
-.fond-bleuBar{
-    background-color: #cd4087;
-}
-
-.btnAjt {
-    color: #DD99BB !important;
-}
-
-.btnDet {
-    background-color: white;
-    color: #DD99BB;
-}
-
 
 ul {
     padding: 0;
