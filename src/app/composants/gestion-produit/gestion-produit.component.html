@@ -78,7 +78,7 @@
                     
                     <div class="container">
                         <div class="row border">
-                            <div class="col-md-4 mb-3" *ngFor="let produit of produitsUserId.reverse()">
+                            <div class="col-md-4 mb-3" *ngFor="let produit of tabProduitsUser.reverse()">
                                 <div class="card">
                                     <img [src]="produit.imageUrl" class="card-img-top h-75" alt="">
                                     <div class="card-body">
@@ -88,8 +88,8 @@
                     
                                         <!-- Boutons d'action par exemple -->
                                         <a href="#" class="btn btn-primary active me-2" data-bs-toggle="modal"
-                                            data-bs-target="#modifierProduit">Modifier</a>
-                                        <a href="#" class="btn btn-danger">Supprimer</a>
+                                            data-bs-target="#modifierProduit" (click)="chargerInfos(produit)">Modifier</a>
+                                        <button href="#" class="btn btn-danger" (click)="supprimerProduit(produit)">Supprimer</button>
                                     </div>
                                 </div>
                             </div>
@@ -247,28 +247,28 @@
                     <div class="">
                         <div class="mb-3">
                             <label for="nomProduit" class="form-label">Nom du produit: </label>
-                            <input type="text" class="form-control" id="nomProduit" name="nomProduit">
+                            <input type="text" class="form-control" id="nomProduit" name="nomProduit" [(ngModel)]="nomProduit">
                         </div>
 
                         <div class="mb-3">
                             <label for="imageProduit" class="form-label">Image du produit</label>
-                            <input type="text" class="form-control" id="imageProduit" name="imageProduit">
+                            <input type="text" class="form-control" id="imageProduit" name="imageProduit" [(ngModel)]="imageProduit">
                         </div>
 
                         <div class="mb-3">
                             <label for="descProduit" class="form-label">Description du produit</label>
-                            <input type="text" class="form-control" id="descProduit" name="descProduit">
+                            <input type="text" class="form-control" id="descProduit" name="descProduit" [(ngModel)]="descProduit">
                         </div>
 
                         <div class="mb-3">
                             <label for="prixProduit" class="form-label">Prix du produit</label>
-                            <input type="text" class="form-control" id="prixProduit" name="prixProduit">
+                            <input type="text" class="form-control" id="prixProduit" name="prixProduit" [(ngModel)]="prixProduit">
                         </div>
                     </div>
 
                     <!-- Envoi du formulaire -->
                     <div class="d-flex justify-content-end">
-                        <button class="btn btnAdd1 text-light" type="submit" data-bs-dismiss="modal">Modifier</button>
+                        <button class="btn btnAdd1 text-light" type="submit" data-bs-dismiss="modal" (click)="modifierProduit()">Modifier</button>
                     </div>
                 </form>
             </div>
