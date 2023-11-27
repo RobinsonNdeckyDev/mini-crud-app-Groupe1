@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GestionProduitService } from 'src/app/services/gestion-produit.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestion-produit',
@@ -12,9 +13,9 @@ export class GestionProduitComponent implements OnInit {
    
   // Gestion bouton
   boutonActif = 1;
-  tabProduits: any;
+
   // idUser: number;
-  produitsUserId: any[] = [];
+  tabProduitsUser: any[] = [];
   produits: any;
 
   nomProduit: string = "";
@@ -23,6 +24,8 @@ export class GestionProduitComponent implements OnInit {
   descProduit: string = "";
 
   objetProduit: any;
+
+  produitFound: any;
 
 
 
@@ -39,60 +42,100 @@ export class GestionProduitComponent implements OnInit {
 
 
   ngOnInit(): void {
-        this.produitService.getProduits().subscribe((data) =>{
-        this.produits = data;
-        // test
-        console.log(this.produits);
+    this.produitService.getProduits().subscribe((data) =>{
+    this.produits = data;        
 
-        if(!localStorage.getItem("tabProduits")){
-            localStorage.setItem("tabProduits", JSON.stringify(this.produits));
-        }
-
-        this.tabProduits = JSON.parse(localStorage.getItem("tabProduits") || "");
-        console.log(this.tabProduits);
-
-        console.log(this.idUserConnect);
-        console.log(this.tabProduits[0]);
-
-        this.recupProduitsUser();
-
-        // test
-        // console.log(this.produitsUserId);
-        // console.log(typeof(this.idUserConnect));
-        
-     })
+    this.recupProduitsUser();    
+  })
   }
 
   recupProduitsUser(){
     // Filtrer les produits de l'utilisateur connecté
-    this.produitsUserId = this.tabProduits.filter((produit?:any) => produit?.idUser === this.idUserConnect);
+    this.tabProduitsUser = this.produits.filter((produit?:any) => produit?.idUser === this.idUserConnect);
   }
   
 
 
   // Méthode pour l'ajout d'un produit
   ajoutProduit(){
-      let lastProduitId= this.tabProduits[this.tabProduits.length - 1].id
-      console.log(lastProduitId);
+    let lastProduitId= this.produits[this.produits.length - 1].id;
 
-      if(this.nomProduit && this.prixProduit){
-        let produit= {
-          id: lastProduitId + 1,
-          idUser: this.idUserConnect,
-          nomProduit: this.nomProduit,
-          etaProduit: 1,
-          description: this.descProduit,
-          imageUrl: this.imageProduit,
-          prix: this.prixProduit
-        }
-
-        console.log(produit);
-        this.produitService.postProduit(produit).subscribe((data) => {
-          this.tabProduits.push(data)
-          localStorage.setItem("tabProduits", JSON.stringify(this.tabProduits))
-          // console.log(this.tabProduits);
-          this.recupProduitsUser();
-        })
+    if(this.nomProduit && this.prixProduit){
+      let produit= {
+        id: lastProduitId + 1,
+        idUser: this.idUserConnect,
+        nomProduit: this.nomProduit,
+        etaProduit: 1,
+        description: this.descProduit,
+        imageUrl: this.imageProduit,
+        prix: this.prixProduit
       }
+
+      console.log(this.produits);
+      this.produitService.postProduit(produit).subscribe((data) => {
+        this.produits.push(data);
+        this.recupProduitsUser();
+      })
+    }
   }
+
+  // Modifier un produit 
+  // Charger les informations du produit 
+  chargerInfos(produit:any){
+    this.produitFound = produit;
+    this.nomProduit= produit.nomProduit;
+    this.imageProduit= produit.imageUrl;
+    this.prixProduit= produit.prix;
+    this.descProduit= produit.description;
+  }
+
+  modifierProduit(){
+    this.produitFound.nomProduit = this.nomProduit;
+    this.produitFound.description = this.descProduit;
+    this.produitFound.imageUrl = this.imageProduit;
+    this.produitFound.prix = this.prixProduit;
+    console.log(this.produitFound);
+
+    Swal.fire({
+      title: "Etes-vous sur???",
+      text: "Vous allez mofier ce produit",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Annuler",
+      confirmButtonColor: "#596235",
+      cancelButtonColor: "#D96845",
+      confirmButtonText: "Oui, je modifie!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.produitService.updateProduit(this.produitFound, this.produitFound.id).subscribe((data =>{
+          // console.log(data)
+        }))
+      }
+    });
+  }
+
+  // Methode pour supprimer un produit 
+  supprimerProduit(produit:any){
+    // console.log(this.produits);
+    Swal.fire({
+      title: "Etes-vous sur???",
+      text: "Vous allez supprimer ce produit",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Annuler",
+      confirmButtonColor: "#596235",
+      cancelButtonColor: "#D96845",
+      confirmButtonText: "Oui, je supprime!"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+        this.produitService.deleteProduit(produit.id).subscribe((data =>{
+          this.produits = this.produits.filter((element:any) => element.id !== produit.id);
+          this.recupProduitsUser();
+        }))
+      }
+    });
+  }
+
+
 }
